@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+:root {
+   --background: #ffffff;
+   --foreground: #171717;
+}
+
+@theme inline {
+   --color-background: var(--background);
+   --color-foreground: var(--foreground);
+   --font-sans: var(--font-geist-sans);
+   --font-mono: var(--font-geist-mono);
+   /* easing */
+   --ease-power1-in: cubic-bezier(0.11, 0, 0.5, 0);
+   --ease-power1-out: cubic-bezier(0.5, 1, 0.89, 1);
+   --ease-power1-inOut: cubic-bezier(0.45, 0, 0.55, 1);
+   --ease-power2-in: cubic-bezier(0.32, 0, 0.67, 0);
+   --ease-power2-out: cubic-bezier(0.33, 1, 0.68, 1);
+   --ease-power2-inOut: cubic-bezier(0.65, 0, 0.35, 1);
+   --ease-power3-in: cubic-bezier(0.5, 0, 0.75, 0);
+   --ease-power3-out: cubic-bezier(0.25, 1, 0.5, 1);
+   --ease-power3-inOut: cubic-bezier(0.76, 0, 0.24, 1);
+   --ease-power4-in: cubic-bezier(0.64, 0, 0.78, 0);
+   --ease-power4-out: cubic-bezier(0.22, 1, 0.36, 1);
+   --ease-power4-inOut: cubic-bezier(0.83, 0, 0.17, 1);
+}
+
+body {
+   background: var(--background);
+   color: var(--foreground);
+}
+
+html {
+   scrollbar-gutter: stable;
+   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}

@@ -1,0 +1,144 @@
+@use "sass:math";
+@use "sass:map";
+@use "./easing.scss" as *;
+
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+$breakpoint-2xl: 1536px;
+
+/*===============================================
+duration
+===============================================*/
+$duration-strong: 1.2s;
+$duration-emphasized: 0.6s;
+$duration-standard: 0.3s;
+
+/*===============================================
+color
+===============================================*/
+//brandColor
+$color-line: #00c300;
+$color-yahoo: #ff0027;
+$color-twitter: #1da1f2;
+$color-facebook: #3b5998;
+$color-insta: #e1306c;
+$FunTech: #b84f0a;
+
+//colorRegulation
+$color-txt: #ffffff;
+$color-key: #b84f0a;
+$color-bg: #000000;
+$color-grey0: #111111;
+
+/*===============================================
+Media Query
+===============================================*/
+$breakpoints: (
+   "sm": "screen and (max-width:" $breakpoint-sm ")",
+   "md": "screen and (max-width:" $breakpoint-md ")",
+   "lg": "screen and (max-width:" $breakpoint-lg ")",
+   "xl": "screen and (max-width:" $breakpoint-xl ")",
+   "2xl": "screen and (max-width:" $breakpoint-2xl ")",
+) !default;
+
+@mixin mq($breakpoint) {
+   @media #{map.get($breakpoints, $breakpoint)} {
+      @content;
+   }
+}
+
+/*===============================================
+Disable hover effects when on mobile
+If $parent is set, hover can be specified for the parent element.
+===============================================*/
+@mixin hover($parent: null) {
+   @media (hover: none) {
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+   }
+
+   @media (-ms-high-contrast: none),
+      (-ms-high-contrast: active),
+      (-moz-touch-enabled: 0),
+      (hover: hover) {
+      @if $parent == null {
+         &:hover,
+         &:focus-visible {
+            @content;
+         }
+      } @else {
+         #{$parent}:hover &,
+         #{$parent}:focus-visible & {
+            @content;
+         }
+      }
+   }
+}
+
+/*===============================================
+transition
+power1 : quad
+power2 : cubic
+power3 : quart
+power4 : quint
+===============================================*/
+@mixin transition($dur: all $duration-standard) {
+   transition: $dur;
+   transition-timing-function: $easeOutQuart;
+}
+
+/*===============================================
+placeholder
+===============================================*/
+
+@mixin placeholder($color) {
+   &::placeholder {
+      color: $color;
+   }
+
+   &:-ms-input-placeholder {
+      color: $color;
+   }
+
+   &::-ms-input-placeholder {
+      color: $color;
+   }
+}
+
+/*===============================================
+background image
+===============================================*/
+@mixin bg_img_cover {
+   background-repeat: no-repeat;
+   background-size: cover;
+   background-position: center;
+}
+
+@mixin bg_img_contain {
+   background-repeat: no-repeat;
+   background-size: contain;
+   background-position: center;
+}
+
+/*===============================================
+fill
+===============================================*/
+@mixin fill {
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   inset: 0;
+   color: transparent;
+}
+
+/*===============================================
+stable vh
+===============================================*/
+@function stableSvh($multiplier: 1) {
+   @return calc(var(--stable-svh) * #{$multiplier});
+}
+
+@function stableLvh($multiplier: 1) {
+   @return calc(var(--stable-lvh) * #{$multiplier});
+}

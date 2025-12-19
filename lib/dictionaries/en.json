@@ -1,0 +1,16 @@
+{
+   "meta": {
+      "title": "Hidden Sauce",
+      "description": "This is our「秘伝のタレ」",
+      "sample": {
+         "title": "sample",
+         "description": "samplesamplesamplesamplesamplesamplesample"
+      }
+   },
+   "home": {
+      "text": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magnam repellat quod minima dolorum ducimus hic quam, magni consequatur blanditiis possimus esse fuga, atque tenetur eum, dicta molestiae fugit sed perferendis?"
+   },
+   "sample": {
+      "text": "sample sample sample sample sample samplesample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample"
+   }
+}
