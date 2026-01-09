@@ -47,7 +47,12 @@ export default async function RootLayout({
             <AppSetup />
             <Lenis />
             <Navigation />
-            <main>{children}</main>
+            <div className="flex flex-col min-h-screen">
+               <main className="flex-1">{children}</main>
+               <footer className="text-center text-sm bg-[gray]">
+                  <p>Footer</p>
+               </footer>
+            </div>
          </body>
       </html>
    );
