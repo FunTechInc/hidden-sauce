@@ -1,5 +1,5 @@
 import { type Locale } from "@/i18n-config";
-import { type Url } from "next/dist/shared/lib/router/router";
+import type { LinkProps } from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import { i18n } from "@/i18n-config";
@@ -16,7 +16,7 @@ export const useLocalePathname = () => {
    const basePathname = `/${segments.slice(2).join("/")}`;
 
    const getLocalizedHref = useCallback(
-      (href: Url) => {
+      (href: LinkProps["href"]): LinkProps["href"] => {
          if (typeof href !== "string") {
             return href;
          }

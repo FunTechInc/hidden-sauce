@@ -39,15 +39,16 @@ type DeviceState = {
    testing: boolean | undefined;
 };
 
+type DetectedDeviceState = Omit<DeviceState, "testing">;
+
 export const useDeviceDetector = (
    testing?: (userAgent: string) => boolean
 ): DeviceState => {
-   const [deviceState, setDeviceState] = useState<DeviceState>({
+   const [deviceState, setDeviceState] = useState<DetectedDeviceState>({
       mobileOS: undefined,
       isMobile: undefined,
       renderingEngine: undefined,
       userAgent: "",
-      testing: undefined,
    });
 
    useIsomorphicLayoutEffect(() => {
@@ -60,9 +61,13 @@ export const useDeviceDetector = (
          isMobile: /Mobi/.test(ua),
          renderingEngine,
          userAgent: ua,
-         testing: testing && testing(ua),
       });
    }, []);
 
-   return deviceState;
+   return {
+      ...deviceState,
+      testing: deviceState.userAgent
+         ? testing?.(deviceState.userAgent)
+         : undefined,
+   };
 };
