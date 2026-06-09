@@ -1,10 +1,10 @@
 "use client";
 
 import cn from "classnames";
-import { usePathname } from "next/navigation";
 import { useStore } from "@/lib/store";
 import LocaleSwitcher from "../localeSwitcher";
 import { LocaleLink } from "@/components/LocaleLink";
+import { useLocalePathname } from "@/hooks/useLocalePathname";
 
 const LINKS = [
    { href: "/", label: "home" },
@@ -12,34 +12,46 @@ const LINKS = [
 ];
 
 export const Navigation = () => {
-   const pathname = usePathname();
-   const setIsNavOpened = useStore((state) => state.setIsNavOpened);
+   const { pathname, basePathname } = useLocalePathname();
+   const toggleNavOpened = useStore((state) => state.toggleNavOpened);
    const isNavOpened = useStore((state) => state.isNavOpened);
    return (
-      <nav className="fixed z-2 flex flex-col uppercase font-mono pl-8 top-8 pt-8">
+      <nav
+         aria-label="Primary navigation"
+         className="fixed top-8 z-2 flex flex-col pt-8 pl-8 font-mono uppercase">
          <div className="inline-flex">
-            <h1>Hidden Sauce</h1>
+            <h1 translate="no">Hidden Sauce</h1>
             <span>{pathname}</span>
          </div>
 
-         <ul className="pl-[24px]">
-            {LINKS.map((link) => (
-               <li key={link.href}>
-                  <LocaleLink
-                     href={link.href}
-                     className={cn(
-                        "relative",
-                        pathname === link.href &&
-                           "before:content-['👉'] before:absolute before:left-[-24px]"
-                     )}>
-                     {link.label}
-                  </LocaleLink>
-               </li>
-            ))}
+         <ul id="site-navigation-list" className="pl-6">
+            {LINKS.map((link) => {
+               const isActive =
+                  basePathname === link.href ||
+                  (link.href !== "/" &&
+                     basePathname.startsWith(`${link.href}/`));
+               return (
+                  <li key={link.href}>
+                     <LocaleLink
+                        href={link.href}
+                        aria-current={isActive ? "page" : undefined}
+                        className={cn(
+                           "relative hover:underline",
+                           isActive &&
+                              "before:absolute before:-left-4 before:top-1/2 before:size-1.5 before:-translate-y-1/2 before:rounded-full before:bg-current before:content-['']"
+                        )}>
+                        {link.label}
+                     </LocaleLink>
+                  </li>
+               );
+            })}
          </ul>
          <button
-            className="cursor-pointer"
-            onClick={() => setIsNavOpened(!isNavOpened)}>
+            type="button"
+            aria-controls="site-navigation-list"
+            aria-expanded={isNavOpened}
+            className="cursor-pointer hover:underline"
+            onClick={toggleNavOpened}>
             {isNavOpened ? "Close" : "Open"}
          </button>
          <LocaleSwitcher />

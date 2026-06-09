@@ -1,16 +1,31 @@
 import { type Locale } from "@/i18n-config";
 import { type Url } from "next/dist/shared/lib/router/router";
 import { usePathname } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
+import { i18n } from "@/i18n-config";
+
+const isLocale = (value: string): value is Locale =>
+   i18n.locales.includes(value as Locale);
 
 export const useLocalePathname = () => {
    const pathname = usePathname();
-   const segments = pathname.split("/");
-   const activeLocale = segments[1] as Locale;
+   const segments = useMemo(() => pathname.split("/"), [pathname]);
+   const activeLocale = isLocale(segments[1])
+      ? segments[1]
+      : i18n.defaultLocale;
    const basePathname = `/${segments.slice(2).join("/")}`;
 
    const getLocalizedHref = useCallback(
-      (href: Url) => `/${activeLocale}${href}`,
+      (href: Url) => {
+         if (typeof href !== "string") {
+            return href;
+         }
+         if (href.startsWith("#") || /^https?:\/\//.test(href)) {
+            return href;
+         }
+         const normalizedHref = href.startsWith("/") ? href : `/${href}`;
+         return `/${activeLocale}${normalizedHref}`;
+      },
       [activeLocale]
    );
 

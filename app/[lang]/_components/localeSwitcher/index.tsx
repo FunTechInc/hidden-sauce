@@ -9,15 +9,17 @@ export default function LocaleSwitcher() {
    const { getRedirectedPathname, activeLocale } = useLocalePathname();
 
    return (
-      <div className="flex gap-4">
+      <div className="flex gap-4" aria-label="Locale switcher">
          <p>Locale:</p>
          <ul className="flex gap-2">
             {i18n.locales.map((locale) => {
+               const isActive = activeLocale === locale;
                return (
                   <li key={locale} className="text-sm">
                      <Link
                         href={getRedirectedPathname(locale)}
-                        className={activeLocale === locale ? "" : ""}
+                        aria-current={isActive ? "true" : undefined}
+                        className={isActive ? "font-bold" : "hover:underline"}
                         scroll={false}>
                         {locale}
                      </Link>

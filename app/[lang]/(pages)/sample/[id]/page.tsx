@@ -2,6 +2,14 @@ import * as CMS from "@/lib/cms";
 import { HTMLConverter } from "@/components/HTMLConverter";
 import type { Metadata } from "next";
 import s from "@/css/article.module.scss";
+import { cache } from "react";
+
+const getNews = cache((id: string) =>
+   CMS.get<CMS.News>({
+      endpoint: "news",
+      contentId: id,
+   })
+);
 
 export async function generateMetadata({
    params,
@@ -9,10 +17,7 @@ export async function generateMetadata({
    params: Promise<{ id: string }>;
 }): Promise<Metadata> {
    const { id } = await params;
-   const blog = await CMS.get({
-      contentId: id,
-      endpoint: "news",
-   });
+   const blog = await getNews(id);
    return {
       title: blog.title,
    };
@@ -28,10 +33,7 @@ export async function generateStaticParams() {
 const Single = async ({ params }: { params: Promise<{ id: string }> }) => {
    const { id } = await params;
 
-   const content = await CMS.get({
-      endpoint: "news",
-      contentId: id,
-   });
+   const content = await getNews(id);
 
    return (
       <article className="mt-80 bg-black text-white max-w-6xl mx-auto">

@@ -28,9 +28,9 @@ export const Archive = async ({ page, category }: ArchiveProps) => {
                flexDirection: "column",
                gap: "16px",
             }}>
-            {contents.map((item, i) => (
+            {contents.map((item) => (
                <LocaleLink
-                  key={i}
+                  key={item.id}
                   href={`/sample/${item.id}`}
                   style={{ textDecoration: "underline" }}>
                   {item.title}

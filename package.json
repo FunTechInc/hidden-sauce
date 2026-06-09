@@ -7,6 +7,8 @@
       "build": "next build",
       "start": "next start",
       "lint": "eslint",
+      "skills:list": "npx skills list",
+      "skills:update": "npx skills update -p -y",
       "next-upgrade": "npm i next@latest react@latest react-dom@latest eslint-config-next@latest"
    },
    "dependencies": {
@@ -20,9 +22,9 @@
       "lenis": "^1.3.16",
       "microcms-js-sdk": "^3.2.0",
       "negotiator": "^1.0.0",
-      "next": "^16.1.1",
-      "react": "^19.2.3",
-      "react-dom": "^19.2.3",
+      "next": "^16.2.7",
+      "react": "^19.2.7",
+      "react-dom": "^19.2.7",
       "zustand": "^5.0.9"
    },
    "devDependencies": {
@@ -31,7 +33,7 @@
       "@types/react": "^19",
       "@types/react-dom": "^19",
       "eslint": "^9",
-      "eslint-config-next": "^16.1.1",
+      "eslint-config-next": "^16.2.7",
       "tailwindcss": "^4",
       "typescript": "^5"
    }

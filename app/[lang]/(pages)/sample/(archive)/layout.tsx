@@ -11,11 +11,11 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
 
    return (
       <div className="flex min-h-screen items-center justify-center flex-col overflow-hidden">
-         <nav>
+         <nav aria-label="Sample categories">
             <ul style={{ display: "flex", gap: "16px" }}>
                {categoryList.contents.map(
-                  (category: CMS.Categories, i: number) => (
-                     <li key={i}>
+                  (category: CMS.Categories) => (
+                     <li key={category.id}>
                         <CategoryNav id={category.id}>
                            {category.name}
                         </CategoryNav>

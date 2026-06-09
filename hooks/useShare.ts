@@ -41,7 +41,7 @@ export const useShare = ({
       () => ({
          onClick: () => {
             window.open(
-               `https:////twitter.com/share?url=${encodedUrl}&text=${shareTitle}`,
+               `https://twitter.com/share?url=${encodedUrl}&text=${shareTitle}`,
                "newwindow",
                windowSize
             );
@@ -73,14 +73,14 @@ export const useShare = ({
             try {
                await window.navigator.share({
                   title: shareTitle,
-                  url: sharePath ? sharePath : encodedUrl,
+                  url: sharePath ?? shareUrl,
                });
-            } catch (e) {
+            } catch {
                return;
             }
          },
       }),
-      [shareTitle, encodedUrl, sharePath]
+      [shareTitle, shareUrl, sharePath]
    );
 
    const [isCopied, setIsCopied] = useState(false);
