@@ -19,6 +19,10 @@ export const useShare = ({
    height = 800,
 }: UseShareProps) => {
    const encodedUrl = useMemo(() => encodeURIComponent(shareUrl), [shareUrl]);
+   const encodedTitle = useMemo(
+      () => encodeURIComponent(shareTitle),
+      [shareTitle]
+   );
    const windowSize = useMemo(
       () => `height=${height},width=${width}`,
       [height, width]
@@ -28,39 +32,39 @@ export const useShare = ({
       () => ({
          onClick: () => {
             window.open(
-               `https://www.facebook.com/sharer.php?u=${encodedUrl}&t=${shareTitle}`,
+               `https://www.facebook.com/sharer.php?u=${encodedUrl}&t=${encodedTitle}`,
                "newwindow",
                windowSize
             );
          },
       }),
-      [encodedUrl, shareTitle, windowSize]
+      [encodedUrl, encodedTitle, windowSize]
    );
 
    const X = useMemo(
       () => ({
          onClick: () => {
             window.open(
-               `https:////twitter.com/share?url=${encodedUrl}&text=${shareTitle}`,
+               `https://twitter.com/share?url=${encodedUrl}&text=${encodedTitle}`,
                "newwindow",
                windowSize
             );
          },
       }),
-      [encodedUrl, windowSize, shareTitle]
+      [encodedUrl, windowSize, encodedTitle]
    );
 
    const LINE = useMemo(
       () => ({
          onClick: () => {
             window.open(
-               `https://social-plugins.line.me/lineit/share?url=${encodedUrl}&text=${shareTitle}`,
+               `https://social-plugins.line.me/lineit/share?url=${encodedUrl}&text=${encodedTitle}`,
                "newwindow",
                windowSize
             );
          },
       }),
-      [encodedUrl, windowSize, shareTitle]
+      [encodedUrl, windowSize, encodedTitle]
    );
 
    const share = useMemo(
@@ -73,14 +77,14 @@ export const useShare = ({
             try {
                await window.navigator.share({
                   title: shareTitle,
-                  url: sharePath ? sharePath : encodedUrl,
+                  url: sharePath ?? shareUrl,
                });
-            } catch (e) {
+            } catch {
                return;
             }
          },
       }),
-      [shareTitle, encodedUrl, sharePath]
+      [shareTitle, shareUrl, sharePath]
    );
 
    const [isCopied, setIsCopied] = useState(false);

@@ -1,11 +1,10 @@
-import { VideoHTMLAttributes, forwardRef } from "react";
-
-export interface VideoProps extends VideoHTMLAttributes<HTMLVideoElement> {
+export interface VideoProps
+   extends React.VideoHTMLAttributes<HTMLVideoElement> {
    fill?: boolean;
+   ref?: React.Ref<HTMLVideoElement>;
 }
 
-export const Video = forwardRef<HTMLVideoElement, VideoProps>((props, ref) => {
-   const { fill, style, ...rest } = props;
+export const Video = ({ fill, ref, style, ...rest }: VideoProps) => {
    return (
       <video
          ref={ref}
@@ -26,6 +25,4 @@ export const Video = forwardRef<HTMLVideoElement, VideoProps>((props, ref) => {
          {...rest}
       />
    );
-});
-
-Video.displayName = "Video";
+};

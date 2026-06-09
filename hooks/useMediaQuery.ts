@@ -1,5 +1,4 @@
-import { useCallback, useState } from "react";
-import { useWindowResizeObserver } from "./useWindowResizeObserver";
+import { useMemo, useState } from "react";
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 
 export const useMediaQuery = (
@@ -7,33 +6,23 @@ export const useMediaQuery = (
    breakpoint: number
 ) => {
    const [isRange, setIsRange] = useState<boolean | null>(null);
-
-   const updateIsRange = useCallback(
-      (currentWidth: number) => {
-         switch (mediaQueryType) {
-            case "max":
-               setIsRange(breakpoint >= currentWidth);
-               break;
-            case "min":
-               setIsRange(breakpoint <= currentWidth);
-               break;
-            default:
-               break;
-         }
-      },
+   const query = useMemo(
+      () => `(${mediaQueryType}-width: ${breakpoint}px)`,
       [mediaQueryType, breakpoint]
    );
 
-   useWindowResizeObserver({
-      onResize: ({ winW }) => updateIsRange(winW),
-      debounce: 100,
-      dependencies: [updateIsRange],
-   });
+   useIsomorphicLayoutEffect(() => {
+      const mediaQueryList = window.matchMedia(query);
+      const updateIsRange = () => {
+         setIsRange(mediaQueryList.matches);
+      };
 
-   useIsomorphicLayoutEffect(
-      () => updateIsRange(window.innerWidth),
-      [updateIsRange]
-   );
+      updateIsRange();
+      mediaQueryList.addEventListener("change", updateIsRange);
+      return () => {
+         mediaQueryList.removeEventListener("change", updateIsRange);
+      };
+   }, [query]);
 
    return isRange;
 };

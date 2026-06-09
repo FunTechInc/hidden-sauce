@@ -1,4 +1,4 @@
-import { useRef, useCallback } from "react";
+import { useRef } from "react";
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 
 type UseWindowResizeObserverProps = {
@@ -22,25 +22,32 @@ export const useWindowResizeObserver = ({
    dependencies = [],
 }: UseWindowResizeObserverProps) => {
    const initialWidth = useRef(0);
-   const timeoutID = useRef<NodeJS.Timeout | number>(0);
+   const timeoutID = useRef<number | undefined>(undefined);
+   const onResizeRef = useRef(onResize);
+   const debounceRef = useRef(debounce);
 
-   const callbackEvent = useCallback(() => {
-      clearTimeout(timeoutID.current);
-      timeoutID.current = setTimeout(() => {
-         onResize({
-            winW: window.innerWidth,
-            winH: window.innerHeight,
-            initWinW: initialWidth.current,
-         });
-      }, debounce);
+   useIsomorphicLayoutEffect(() => {
+      onResizeRef.current = onResize;
+      debounceRef.current = debounce;
    }, [onResize, debounce]);
 
    useIsomorphicLayoutEffect(() => {
       initialWidth.current = window.innerWidth;
+      const callbackEvent = () => {
+         window.clearTimeout(timeoutID.current);
+         timeoutID.current = window.setTimeout(() => {
+            onResizeRef.current({
+               winW: window.innerWidth,
+               winH: window.innerHeight,
+               initWinW: initialWidth.current,
+            });
+         }, debounceRef.current);
+      };
+
       window.addEventListener("resize", callbackEvent);
       return () => {
          window.removeEventListener("resize", callbackEvent);
-         clearTimeout(timeoutID.current);
+         window.clearTimeout(timeoutID.current);
       };
    }, dependencies);
 };

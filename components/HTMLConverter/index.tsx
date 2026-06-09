@@ -11,7 +11,12 @@ export const HTMLConverter = ({ children }: { children: string }) => {
          ) {
             const { src, alt, width, height } = domNode.attribs;
             return (
-               <Image src={src} width={+width} height={+height} alt={alt} />
+               <Image
+                  src={src}
+                  width={Number(width) || 1}
+                  height={Number(height) || 1}
+                  alt={alt || ""}
+               />
             );
          }
       },

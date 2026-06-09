@@ -8,9 +8,20 @@ export const useIsTouchDevice = () => {
    const [isTouchDevice, setIsTouchDevice] = useState<boolean | null>(null);
 
    useIsomorphicLayoutEffect(() => {
-      setIsTouchDevice(
-         window.ontouchstart !== undefined && 0 < navigator.maxTouchPoints
-      );
+      const touchQuery = window.matchMedia("(pointer: coarse)");
+      const updateIsTouchDevice = () => {
+         setIsTouchDevice(
+            "ontouchstart" in window ||
+               navigator.maxTouchPoints > 0 ||
+               touchQuery.matches
+         );
+      };
+
+      updateIsTouchDevice();
+      touchQuery.addEventListener("change", updateIsTouchDevice);
+      return () => {
+         touchQuery.removeEventListener("change", updateIsTouchDevice);
+      };
    }, []);
 
    return isTouchDevice;
