@@ -50,7 +50,7 @@ Use `@/...` imports when shared utilities cross top-level directories, such as `
 
 ## Sample CMS
 
-The microCMS sample routes under `app/[lang]/(pages)/sample` and the CMS helpers are removable reference implementation, not required boilerplate infrastructure.
+The microCMS sample routes under `app/[lang]/sample` and the CMS helpers are removable reference implementation, not required boilerplate infrastructure.
 
 - Keep CMS assumptions out of generic `components/` and `hooks/`.
 - Do not expand the sample CMS into a required project architecture.
