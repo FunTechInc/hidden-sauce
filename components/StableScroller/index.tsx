@@ -1,8 +1,8 @@
 "use client";
 
 import { createContext, useContext, useRef, useState } from "react";
-import { useIsomorphicLayoutEffect } from "../../hooks/useIsomorphicLayoutEffect";
-import { useDeviceDetector } from "../../hooks/useDeviceDetector";
+import { useIsomorphicLayoutEffect } from "@/hooks/useIsomorphicLayoutEffect";
+import { useDeviceDetector } from "@/hooks/useDeviceDetector";
 
 const StableScrollerContext = createContext<HTMLDivElement | undefined>(
    undefined

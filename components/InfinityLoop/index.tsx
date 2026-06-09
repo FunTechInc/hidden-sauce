@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import gsap from "gsap";
-import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { useGsapTicker } from "@/hooks/useGsapTicker";
 import { useIsomorphicLayoutEffect } from "@/hooks/useIsomorphicLayoutEffect";
 

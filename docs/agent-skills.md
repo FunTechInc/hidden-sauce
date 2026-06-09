@@ -26,3 +26,10 @@ The update command updates project skills from `skills-lock.json`.
 - `next-cache-components`: use only when enabling Cache Components/PPR.
 - `workflow`: not needed for static-first websites.
 - `ai-sdk`, `ai-elements`, `streamdown`: install only for AI features.
+
+## Structure Notes
+
+- `components/` and `hooks/` are shared boilerplate utilities. Reuse or refine them before creating equivalents.
+- `app/**/_components` is for route-local components only.
+- `css/` is the authored style source. Generated CSS output should not be committed.
+- The microCMS sample is a removable reference implementation for CMS-backed pages.
